@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/02 15:37:28 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/08 14:33:30 by amarchan         ###   ########.fr       */
+/*   Created: 2021/12/02 15:47:20 by amarchan          #+#    #+#             */
+/*   Updated: 2022/02/08 12:23:52 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_minitalk.h"
+#include "libft.h"
 
-void	ft_putstr(char *s, int isend)
+void	ft_putnbr(int n)
 {
-	if (!s)
+	if (n == -2147483648)
+	{
+		write(1, "-2147483648", 11);
 		return ;
-	while (*s)
-		ft_putchar(*s++);
-	if (isend >= 1)
-		ft_putchar('\n');
+	}
+	if (n < 0)
+	{
+		ft_putchar('-');
+		n *= -1;
+	}
+	if (n > 9)
+	{
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
+	}
+	else
+		ft_putchar(n + '0');
 }
