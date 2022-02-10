@@ -17,6 +17,7 @@ void	ft_putstr(char *s, int isend);
 void	ft_putnbr(int n);
 int	    ft_atoi(const char *str);
 int	    ft_isdigit(int c);
+int	    ft_strlen(const char *s);
 int     sigaction(int signum, const struct sigaction *act,
               struct sigaction *oldact);
 
