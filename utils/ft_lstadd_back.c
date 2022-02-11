@@ -6,21 +6,21 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 17:53:03 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/03 13:43:50 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/11 14:43:39 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minitalk.h"
 
-void	ft_lstadd_back(t_list **alst, t_list *new)
+void	ft_lstadd_back(t_lined_up **first_elt, t_lined_up *new)
 {
-	t_list	*iterator;
+	t_lined_up	*iterator;
 
-	iterator = *alst;
-	if (alst && new)
+	iterator = *first_elt;
+	if (first_elt && new)
 	{
-		if (!*alst)
-			*alst = new;
+		if (!*first_elt)
+			*first_elt = new;
 		else
 		{	
 			while (iterator->next)
