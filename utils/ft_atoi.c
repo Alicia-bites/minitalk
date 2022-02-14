@@ -6,12 +6,19 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:02:59 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/03 13:54:40 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/14 15:53:34 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_minitalk.h"
 
+static int	ft_isspace(int c)
+{
+	if (c == ' ' || c == '\f' || c == '\n'
+		|| c == '\r' || c == '\t' || c == '\v')
+		return (1);
+	return (0);
+}
 int	ft_atoi(const char *str)
 {
 	int	i;
@@ -21,8 +28,7 @@ int	ft_atoi(const char *str)
 	i = 0;
 	res = 0;
 	negative = 1;
-	while (str[i] && (str[i] == ' ' || str[i] == '\n' || str[i] == '\t'
-			|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r'))
+	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{

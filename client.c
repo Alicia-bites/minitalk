@@ -1,25 +1,6 @@
 #include "ft_minitalk.h"
 
-//termine le message du client par un '\0' soit 8 bits à 0
-int ft_msg_ender(pid_t server_pid)
-{
-    int i;
-
-    i = 0;
-    while (i++ < 8)
-        if (ft_is_sent(server_pid, 0, 0))
-            return (1);
-    return (0);
-}
-
-//verifie que le PID entre en parametre est compose uniquement de chiffres
-int pid_is_valid(char *s)
-{
-    while (*s)
-        if (!ft_isdigit(*s++))
-		    return (0);
-	return (1);
-}
+t_client	g_client;
 
 //envoie chaque bit et verifie que chaque bit a bien ete recu par le serveur
 int    ft_is_sent(pid_t server_pid, int bit, int tries)
@@ -27,14 +8,14 @@ int    ft_is_sent(pid_t server_pid, int bit, int tries)
     int bit_sent;
 
     if (tries >= MAX_RETRIES)
-        return (0);
+        return (-1);
     if (bit == 1)
         bit_sent = SIGUSR1;
     if (bit == 0)
         bit_sent = SIGUSR2;
     if (kill(server_pid, SIGUSR1) == SIG_ERROR || kill(server_pid, SIGUSR2 == SIG_ERROR))
         return (ft_is_sent(server_pid, bit, tries + 1));
-    return (1);
+    return (0);
 }
 
 // envoie chaque caractere bit par bit en commencant par le bit le plus faible
@@ -47,8 +28,8 @@ int ft_send_char(pid_t server_pid, char c)
     {
         res = c % 2;
         c >>= 1;
-        if (ft_is_sent(server_pid, res, 0))
-            return (1);
+        if (ft_is_sent(server_pid, res, 0) == SIG_ERROR)
+            return (-1);
     }
     return (0);
 }
@@ -58,31 +39,59 @@ int    ft_send_msg(pid_t server_pid, char *msg)
 {
     while (*msg)
     {
-        if (ft_send_char(server_pid, *msg++))
-            return (1);
+        if (ft_send_char(server_pid, *msg++) == SIG_ERROR)
+            return (-1);
         pause();
     }
     ft_msg_ender(server_pid);
+    return (0);
+}
+void	handler(int signum)
+{
+	if (signum == SIGUSR1)
+		g_client.flags |= BIT_RECEIVED;
+	else if (signum == SIGUSR2)
+		g_client.flags |= MSG_RECEIVED;
+}
+
+//set up sigaction. A reception du signal SIGUSR1 ou SIGUSR2, envoie le message
+int ft_set_sigaction (void)
+{
+    struct sigaction action;
+
+    sigemptyset(&action.sa_mask);
+    action.sa_flags = 0;
+    action.sa_sigaction = &handler;
+    if (sigaction(SIGUSR1, &action, 0) == -1)
+        return (-1);
+    if (sigaction(SIGUSR2, &action, 0) == -1)
+        return (-1);
     return (0);
 }
 
 //client --> usage : ./client <PID du server> <message>
 int main(int argc, char **argv)
 {
-    struct sigaction action;
-    pid_t server_pid;
+    int msg_error;
 
-    action.sa_flags = SA_SIGINFO;
-    action.sa_sigaction = ft_send_msg;
-    sigemptyset(&action.sa_mask);
-    if(argc != 3)
-        ft_putstr("Invalid number of arguments", 1);
-    if (!pid_is_valid(argv[1]))
-        ft_putstr("PID must be digit only", 1);
-    server_pid = ft_atoi((argv[1]));
-    sigaction(SIGUSR1, &action, 0);
-    sigaction(SIGUSR2, &action, 0);
-    if (!ft_send_msg(server_pid, argv[2]))
-        ft_putstr("Unable to send message", 1);
-    return(0);
+    if(argc < 3)
+        ft_panic(argc);
+    g_client.msg = argv[2];
+	g_client.msg_len = ft_strlen(argv[2]);
+	g_client.srv_pid = ft_atoi(argv[1]);
+    g_client.flags = 0;
+    if (set_sigaction() == -1)
+		return (raise_error(ACTION_FAIL));
+    if (g_client.srv_pid <= 0)
+		return (ft_panic(INVALID_PID));
+	if (g_client.msg_len == 0)
+		return (ft_panic(EMPTY_STR));
+    msg_error = ft_send_msg(g_client.srv_pid, g_client.msg);
+    if (msg_error != 0)
+        return (ft_panic(msg_error));
+	usleep(500);
+    if (!(g_client.flags) & MSG_RECEIVED)
+        return (ft_panic(NO_COM));
+    ft_putstr("Your message has been sent with success!");
+    return (0);
 }
