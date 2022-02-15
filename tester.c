@@ -1,23 +1,49 @@
 #include "ft_minitalk.h"
 
-int    ft_is_sent(pid_t server_pid, int bit, int tries)
-{
-    int bit_sent;
+t_lined_up *g_pile;
 
-    if (tries >= MAX_RETRIES)
-        return (-1);
-    if (bit == 1)
-        bit_sent = SIGUSR1;
-    if (bit == 0)
-        bit_sent = SIGUSR2;
-    if (kill(server_pid, SIGUSR1) == SIG_ERROR || kill(server_pid, SIGUSR2 == SIG_ERROR))
-        return (ft_is_sent(server_pid, bit, tries + 1));
-    return (0);
+int ft_count_clients(void)
+{
+    int n;
+    t_lined_up *iterator;
+    pid_t ex_pid;
+
+    n = 0;
+    iterator = g_pile;
+    while(iterator)
+    {
+        ex_pid = iterator->pid;
+        iterator = iterator->next;
+        if (ex_pid != iterator->pid)
+        {
+            ex_pid = iterator->pid;
+            n++;
+        }
+    }
+    return (n);
 }
 
 int main()
 {
-    ft_is_sent(1234, 0, 0);
-    printf("%d\n", ft_is_sent(1234, 0, 0));
+    t_lined_up *new;
+    int i;
+    t_lined_up *iterator;
+    pid_t pid_test;
+    
+    i = 0;
+    pid_test = 1234;
+    
+    while (i < 3 && pid_test < 1237)
+    {
+        new = ft_lstnew(i++, pid_test++);
+        ft_lstadd_back(&g_pile, new);
+    }
+    iterator = g_pile;
+    while (iterator)
+    {
+        printf("%d %d\n", iterator->bit, iterator->pid);
+        iterator = iterator->next;
+    }
+    printf("%d\n", ft_count_clients());
     return (0);
 }

@@ -8,7 +8,7 @@ int    ft_is_sent(pid_t server_pid, int bit, int tries)
     int bit_sent;
 
     if (tries >= MAX_RETRIES)
-        return (-1);
+        return (INVALID_PID);
     if (bit == 1)
         bit_sent = SIGUSR1;
     if (bit == 0)
@@ -29,7 +29,10 @@ int ft_send_char(pid_t server_pid, char c)
         res = c % 2;
         c >>= 1;
         if (ft_is_sent(server_pid, res, 0) == SIG_ERROR)
-            return (-1);
+            return (INVALID_PID);
+        usleep(2000);
+        if (!(g_client.flags & BIT_RECEIVED))
+			return (SRV_TIMEOUT);
     }
     return (0);
 }
@@ -46,6 +49,7 @@ int    ft_send_msg(pid_t server_pid, char *msg)
     ft_msg_ender(server_pid);
     return (0);
 }
+
 void	handler(int signum)
 {
 	if (signum == SIGUSR1)
@@ -61,7 +65,8 @@ int ft_set_sigaction (void)
 
     sigemptyset(&action.sa_mask);
     action.sa_flags = 0;
-    action.sa_sigaction = &handler;
+    action.sa_sigaction = NULL;
+    action.sa_handler = &handler;
     if (sigaction(SIGUSR1, &action, 0) == -1)
         return (-1);
     if (sigaction(SIGUSR2, &action, 0) == -1)
@@ -80,8 +85,8 @@ int main(int argc, char **argv)
 	g_client.msg_len = ft_strlen(argv[2]);
 	g_client.srv_pid = ft_atoi(argv[1]);
     g_client.flags = 0;
-    if (set_sigaction() == -1)
-		return (raise_error(ACTION_FAIL));
+    if (ft_set_sigaction() == -1)
+		return (ft_panic(ACTION_FAIL));
     if (g_client.srv_pid <= 0)
 		return (ft_panic(INVALID_PID));
 	if (g_client.msg_len == 0)
@@ -92,6 +97,6 @@ int main(int argc, char **argv)
 	usleep(500);
     if (!(g_client.flags) & MSG_RECEIVED)
         return (ft_panic(NO_COM));
-    ft_putstr("Your message has been sent with success!");
+    ft_putstr("Your message has been sent with success!", 1);
     return (0);
 }

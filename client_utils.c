@@ -14,6 +14,8 @@ int    ft_panic(int errcode)
         ft_putstr("Empty string.", 1);
     else if (errcode == NO_COM)
         ft_putstr("Message not sent", 1);
+    else if (errcode == SRV_TIMEOUT)
+        ft_putstr("Impossible to reach server", 1);
     return (errcode);
 }
 
