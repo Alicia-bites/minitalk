@@ -16,7 +16,7 @@ void ft_roger(pid_t pid, int tries)
 void ft_receive_bits(int signum, siginfo_t *info, void *context)
 {
     t_lined_up *new;
-    int count_clients;
+    int count_bits;
 
     (void)context;
     if (signum == SIGUSR1)
@@ -24,26 +24,10 @@ void ft_receive_bits(int signum, siginfo_t *info, void *context)
     if (signum == SIGUSR2)
         new = ft_lstnew(0, info->si_pid);
     ft_lstadd_back(&g_pile, new);
-    count_clients = ft_count_clients()
+    count_bits = ft_count_bits();
+    if ()
         ft_print_msg()
-            ft_roger(info->si_pid, 0);
-}
-
-// compte le nombre de PID uniques dans la liste chainee 
-int ft_count_clients(void)
-{
-    int n;
-    pid_t ex_pid;
-
-    n = 0;
-    while(g_pile)
-    {
-        ex_pid = g_pile->pid;
-        g_pile = g_pile->next;
-        if (ex_pid != g_pile->pid)
-            n++;
-    }
-    return (n);
+    ft_roger(info->si_pid, 0);
 }
 
 void ft_print_msg(char *str)
