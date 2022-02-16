@@ -1,5 +1,4 @@
-#include "../ft_minitalk.h"
-
+#include "../headers/ft_minitalk.h"
 t_lined_up	*ft_lstnew(int bit, pid_t pid)
 {
 	t_lined_up	*elt;

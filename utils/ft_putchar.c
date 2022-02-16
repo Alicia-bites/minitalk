@@ -6,12 +6,11 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 15:12:42 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/03 13:54:22 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/16 19:00:34 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_minitalk.h"
-
+#include "../headers/ft_minitalk.h"
 void	ft_putchar(char c)
 {
 	write(1, &c, 1);

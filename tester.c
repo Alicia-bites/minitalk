@@ -1,24 +1,22 @@
-#include "ft_minitalk.h"
+#include "headers/ft_minitalk.h"
 
 t_lined_up *g_pile;
 
-int ft_count_clients(void)
-{
-    int n;
-    t_lined_up *iterator;
-    pid_t ex_pid;
+char ft_built_char()
+{ 
+	int i;
+	unsigned char c;
+	t_lined_up *iterator;
 
-    n = 1;
-    ex_pid = 0;
-    iterator = g_pile;
-    while(iterator->next)
-    {
-        ex_pid = iterator->pid;
-        iterator = iterator->next;
-        if (ex_pid != iterator->pid)
-            n++;
-    }
-    return (n);
+	iterator = g_pile;
+	i = 0;
+	c = 0;
+	while (i <= 7 && iterator->next) 
+	{
+		c += (iterator->bit << i++);
+		iterator = iterator->next;
+	}
+	return (c);
 }
 
 int main()
@@ -32,17 +30,18 @@ int main()
     i = 0;
     pid_test = 1234;
     
-    while (i < 3 && pid_test < 1237)
+    while (i < 8)
     {
-        new = ft_lstnew(i++, pid_test++);
+        new = ft_lstnew(1, pid_test++);
         ft_lstadd_back(&g_pile, new);
+        i++;
     }
-    iterator = g_pile;
-    while (iterator)
-    {
-        printf("%d %d\n", iterator->bit, iterator->pid);
-        iterator = iterator->next;
-    }
-    printf("%d\n", ft_count_clients());
+    // iterator = g_pile;
+    // while (iterator)
+    // {
+    //     printf("%d %d\n", iterator->bit, iterator->pid);
+    //     iterator = iterator->next;
+    // }
+    printf("%c\n", ft_built_char());
     return (0);
 }

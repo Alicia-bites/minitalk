@@ -1,4 +1,4 @@
-#include "ft_minitalk.h"
+#include "headers/ft_minitalk.h"
 
 t_client	g_client;
 
@@ -18,7 +18,7 @@ int    ft_is_sent(pid_t server_pid, int bit, int tries)
     return (0);
 }
 
-// envoie chaque caractere bit par bit en commencant par le bit le plus faible
+// envoie chaque caractere bit par bit en commencant par le bit le plus fort
 int ft_send_char(pid_t server_pid, char c)
 {
     int res;
@@ -54,7 +54,7 @@ void	handler(int signum)
 		ft_send_msg(g_client.srv_pid, g_client.msg);
 }
 
-//set up sigaction. A reception du signal SIGUSR1 ou SIGUSR2, envoie le message
+//set up sigaction. A reception du signal SIGUSR1 : envoie next bit
 int ft_set_sigaction (void)
 {
     struct sigaction action;
@@ -88,8 +88,5 @@ int main(int argc, char **argv)
     if (msg_error != 0)
         return (ft_panic(msg_error));
 	usleep(500);
-    if (!(g_client.flags) & MSG_RECEIVED)
-        return (ft_panic(NO_COM));
-    ft_putstr("Your message has been sent with success!", 1);
     return (0);
 }

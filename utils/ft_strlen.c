@@ -6,12 +6,11 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 08:42:58 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/03 13:44:26 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/16 19:00:34 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_minitalk.h"
-
+#include "../headers/ft_minitalk.h"
 int	ft_strlen(const char *s)
 {
 	int	i;

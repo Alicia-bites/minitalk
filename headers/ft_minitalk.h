@@ -39,8 +39,9 @@ extern t_lined_up	*g_pile;
 
 t_lined_up	*ft_lstnew(int bit, pid_t pid);
 void		ft_lstadd_back(t_lined_up **first_elt, t_lined_up *new);
-void    	ft_roger(pid_t pid, int tries);
-void    	ft_receive_bits(int signum, siginfo_t *info, void *context);
+int    		ft_roger(pid_t pid, int tries);
+void    		ft_receive_bits(int signum, siginfo_t *info, void *context);
+int			ft_lstsize(t_lined_up *lst);
 int 		ft_msg_ender(pid_t server_pid);
 void		ft_putchar(char c);
 void		ft_putstr(char *s, int isend);

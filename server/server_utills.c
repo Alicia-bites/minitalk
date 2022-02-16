@@ -1,5 +1,4 @@
-#include "ft_minitalk.h"
-
+#include "../headers/ft_minitalk.h"
 // compte le nombre de PID uniques dans la liste chainee 
 int ft_count_clients(void)
 {
@@ -15,4 +14,10 @@ int ft_count_clients(void)
             n++;
     }
     return (n);
+}
+
+//compte le nombre de bits envoyes par le client
+int ft_count_bits(void)
+{
+    return(ft_lstsize(g_pile));
 }
