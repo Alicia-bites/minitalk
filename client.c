@@ -31,8 +31,6 @@ int ft_send_char(pid_t server_pid, char c)
         if (ft_is_sent(server_pid, res, 0) == SIG_ERROR)
             return (INVALID_PID);
         usleep(2000);
-        if (!(g_client.flags & BIT_RECEIVED))
-			return (SRV_TIMEOUT);
     }
     return (0);
 }
@@ -53,9 +51,7 @@ int    ft_send_msg(pid_t server_pid, char *msg)
 void	handler(int signum)
 {
 	if (signum == SIGUSR1)
-		g_client.flags |= BIT_RECEIVED;
-	else if (signum == SIGUSR2)
-		g_client.flags |= MSG_RECEIVED;
+		ft_send_msg(g_client.srv_pid, g_client.msg);
 }
 
 //set up sigaction. A reception du signal SIGUSR1 ou SIGUSR2, envoie le message
@@ -64,12 +60,9 @@ int ft_set_sigaction (void)
     struct sigaction action;
 
     sigemptyset(&action.sa_mask);
-    action.sa_flags = 0;
     action.sa_sigaction = NULL;
     action.sa_handler = &handler;
     if (sigaction(SIGUSR1, &action, 0) == -1)
-        return (-1);
-    if (sigaction(SIGUSR2, &action, 0) == -1)
         return (-1);
     return (0);
 }

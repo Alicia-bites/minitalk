@@ -12,6 +12,14 @@ void ft_roger(pid_t pid, int tries)
         ft_roger(pid, tries + 1);
 }
 
+//compte le nombre de bits envoyes par le client
+int ft_count_bits(void)
+{
+    return(ft_lstsize(g_pile));
+}
+
+
+
 // range chaque bit recu dans une liste chainee
 void ft_receive_bits(int signum, siginfo_t *info, void *context)
 {
@@ -25,8 +33,7 @@ void ft_receive_bits(int signum, siginfo_t *info, void *context)
         new = ft_lstnew(0, info->si_pid);
     ft_lstadd_back(&g_pile, new);
     count_bits = ft_count_bits();
-    if ()
-        ft_print_msg()
+
     ft_roger(info->si_pid, 0);
 }
 

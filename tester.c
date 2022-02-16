@@ -8,28 +8,27 @@ int ft_count_clients(void)
     t_lined_up *iterator;
     pid_t ex_pid;
 
-    n = 0;
+    n = 1;
+    ex_pid = 0;
     iterator = g_pile;
-    while(iterator)
+    while(iterator->next)
     {
         ex_pid = iterator->pid;
         iterator = iterator->next;
         if (ex_pid != iterator->pid)
-        {
-            ex_pid = iterator->pid;
             n++;
-        }
     }
     return (n);
 }
 
 int main()
 {
-    t_lined_up *new;
-    int i;
+
     t_lined_up *iterator;
     pid_t pid_test;
-    
+    int i;
+    t_lined_up *new;
+
     i = 0;
     pid_test = 1234;
     

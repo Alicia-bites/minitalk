@@ -34,12 +34,6 @@ typedef struct s_client
 	uint8_t		flags;
 }	t_client;
 
-enum client_flag
-{
-	MSG_RECEIVED = 0x01,
-	BIT_RECEIVED = 0x02,
-};
-
 extern t_client		g_client;
 extern t_lined_up	*g_pile;
 
