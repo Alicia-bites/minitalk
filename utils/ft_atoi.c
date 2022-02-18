@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:02:59 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/16 19:00:34 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/18 18:42:34 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	ft_atoi(const char *str)
 	i = 0;
 	res = 0;
 	negative = 1;
+	if (!str)
+		return (-1);
 	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] == '-' || str[i] == '+')

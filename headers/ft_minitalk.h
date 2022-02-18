@@ -7,7 +7,7 @@
 # define ACTION_FAIL -2
 # define INVALID_PID -3
 # define EMPTY_STR -4
-# define NO_COM -5
+# define NO_ROGER -5
 # define SRV_TIMEOUT -6
 # define SIGACT_FAIL -7
 
@@ -34,13 +34,19 @@ typedef struct s_client
 	uint8_t		flags;
 }	t_client;
 
+enum e_client_flags
+{
+	MSG_ACK=0x01,
+	NO_PING=0x02
+};
+
 extern t_client		g_client;
 extern t_lined_up	*g_pile;
 
 t_lined_up	*ft_lstnew(int bit, pid_t pid);
 void		ft_lstadd_back(t_lined_up **first_elt, t_lined_up *new);
 int    		ft_roger(pid_t pid, int tries);
-void    		ft_receive_bits(int signum, siginfo_t *info, void *context);
+void    	ft_receive_bits(int signum, siginfo_t *info, void *context);
 int			ft_lstsize(t_lined_up *lst);
 int 		ft_msg_ender(pid_t server_pid);
 void		ft_putchar(char c);
@@ -51,7 +57,7 @@ int	    	ft_isdigit(int c);
 int	    	ft_strlen(const char *s);
 int 		pid_is_valid(char *s);
 int    		ft_panic(int errcode);
-int    		ft_is_sent(pid_t server_pid, int bit, int tries);
+int    		ft_send_bit(pid_t server_pid, int bit, int tries);
 int 		t_send_char(pid_t server_pid, char c);
 int    		ft_send_msg(pid_t server_pid, char *msg);
 
