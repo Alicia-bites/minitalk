@@ -21,19 +21,26 @@ char ft_built_char()
 	iterator = g_pile;
 	i = 0;
 	c = 0;
-	while (i <= 7 && iterator->next) 
+	while (i <= 7 && iterator) 
 	{
-		c += (iterator->bit << i++);
+		c += (iterator->bit << 7-i++);
+		//printf("c : %d\n", c);
+		//printf("iterator->bit : %d\n", iterator->bit);
 		iterator = iterator->next;
 	}
 	return (c);
+}
+
+int	ft_print_pile()
+{
+	ft_putchar(ft_built_char());
 }
 
 // range chaque bit recu dans une liste chainee, confirme reception du bit
 void ft_receive_bits(int signum, siginfo_t *info, void *context)
 {
 	t_lined_up *new;
-	int count_bits;
+	static int count_bits = 0;
 
 	(void)context;
 	if (signum == SIGUSR1)
@@ -41,10 +48,16 @@ void ft_receive_bits(int signum, siginfo_t *info, void *context)
 	if (signum == SIGUSR2)
 		new = ft_lstnew(0, info->si_pid);
 	ft_lstadd_back(&g_pile, new);
+	//printf("new->bit : %d\n", new->bit);
+	count_bits = ft_lstsize(g_pile);
+	//printf("count_bits = %d\n", count_bits);
+	if  (count_bits % 8 == 0)
+	{
+		ft_print_pile();
+		//count_bits = 0;
+	}
 	if (ft_roger(info->si_pid, 0) == SIG_ERROR)
 		return ;
-	if (ft_lstsize(g_pile) == 8)
-		ft_putchar(ft_built_char());
 }
 
 int main(int argc, char **argv)

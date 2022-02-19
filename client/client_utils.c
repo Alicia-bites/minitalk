@@ -22,13 +22,13 @@ int    ft_panic(int errcode)
 }
 
 //termine le message du client par un '\0' soit 8 bits à 0
-int ft_msg_ender(pid_t server_pid)
+int ft_msg_ender(void)
 {
     int i;
 
     i = 0;
     while (i++ < 8)
-        if (ft_send_bit(server_pid, 0, 0) == -1)
+        if (ft_send_bit(0, 0) == -1)
             return (-1);
     return (0);
 }

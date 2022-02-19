@@ -2,22 +2,36 @@
 
 t_lined_up *g_pile;
 
-char ft_built_char()
-{ 
-	int i;
-	unsigned char c;
-	t_lined_up *iterator;
+// char ft_built_char()
+// { 
+// 	int i;
+// 	unsigned char c;
+// 	t_lined_up *iterator;
 
-	iterator = g_pile;
+// 	iterator = g_pile;
+// 	i = 0;
+// 	c = 0;
+// 	while (i <= 7 && iterator->next) 
+// 	{
+// 		c += (iterator->bit << i++);
+// 		iterator = iterator->next;
+// 	}
+// 	return (c);
+// }
+
+int	ft_lstsize(t_lined_up *lst)
+{
+	int	i;
+
 	i = 0;
-	c = 0;
-	while (i <= 7 && iterator->next) 
+	while (lst)
 	{
-		c += (iterator->bit << i++);
-		iterator = iterator->next;
+		lst = lst->next;
+		i++;
 	}
-	return (c);
+	return (i);
 }
+
 
 int main()
 {
@@ -36,12 +50,12 @@ int main()
         ft_lstadd_back(&g_pile, new);
         i++;
     }
-    // iterator = g_pile;
-    // while (iterator)
-    // {
-    //     printf("%d %d\n", iterator->bit, iterator->pid);
-    //     iterator = iterator->next;
-    // }
-    printf("%c\n", ft_built_char());
+    iterator = g_pile;
+    while (iterator)
+    {
+        printf("%d %d\n", iterator->bit, iterator->pid);
+        iterator = iterator->next;
+    }
+    printf("%d\n", ft_lstsize(g_pile));
     return (0);
 }
