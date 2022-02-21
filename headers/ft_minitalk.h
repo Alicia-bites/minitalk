@@ -32,12 +32,14 @@ typedef struct s_client
 	size_t		msg_len;
 	pid_t		srv_pid;
 	uint8_t		flags;
+	int			bits_sent;
 }	t_client;
 
 enum e_client_flags
 {
 	MSG_ACK=0x01,
-	PONG_OK=0x02
+	PONG_OK=0x02,
+	CHAR_SENT=0x03	
 };
 
 extern t_client		g_client;

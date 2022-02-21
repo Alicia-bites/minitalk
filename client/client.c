@@ -23,17 +23,24 @@ int ft_send_char(char c)
 {
     int res = 0;
     static int i = 7;
-    
+    printf("c : %c\n", c);
     //printf("g_client.flags : %d\n", g_client.flags);
     while (i >= 0 && g_client.flags == PONG_OK)
     {
         //printf("%d\n", i);
-        res = (c >> i--) & 1;
-        //printf("res : %d\n", res);
+        res = (c >> i) & 1;
+        printf("res : %d\n", res);
         g_client.flags = 0;
         if (ft_send_bit(res, 0) == SIG_ERROR)
             return (SIG_ERROR);
         usleep(10000);
+        if (i == 0)
+        { 
+            g_client.bits_sent = CHAR_SENT;
+            i = 7;
+            return (0);
+        }
+        i--;
     }
     return (0);
 }
@@ -44,11 +51,16 @@ int    ft_send_msg(char *msg)
     int i;
 
     i = 0;
-    while (msg[i])
+    //printf("g_client.flags : %d\n", g_client.flags);
+    while (msg[i] && g_client.flags == PONG_OK)
     {
-        printf("msg: %c\n", msg[i]);
-        if (ft_send_char(msg[i++]) == SIG_ERROR)
+        
+        if (g_client.bits_sent == CHAR_SENT)
+            i++;
+        //printf("msg: %c\n", msg[i]);
+        if (ft_send_char(msg[i]) == SIG_ERROR)
             return (SIG_ERROR);
+        usleep(10000);
     }
     if (*msg = '\0' && g_client.flags == PONG_OK)
         if (ft_msg_ender() == SIG_ERROR)
@@ -62,7 +74,7 @@ void	handler(int signum)
 	if (signum == SIGUSR1)
     {
         g_client.flags = PONG_OK;
-        ft_send_msg(g_client.msg);
+        //ft_send_msg(g_client.msg);
     }
     if (signum == SIGUSR2)
         g_client.flags = MSG_ACK;
@@ -92,6 +104,7 @@ int main(int argc, char **argv)
 	g_client.msg_len = ft_strlen(argv[2]);
 	g_client.srv_pid = ft_atoi(argv[1]);
     g_client.flags = PONG_OK;
+    g_client.bits_sent = 0;
     
     if (ft_set_sigaction() == -1)
 		return (ft_panic(ACTION_FAIL));
@@ -108,5 +121,5 @@ int main(int argc, char **argv)
 	// 	return (ft_panic(NO_ROGER));
 	// else
 	// 	ft_putstr("Your message has been delivered successfully!", 1);
-    // return (0);
+    return (0);
 }

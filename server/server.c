@@ -34,6 +34,7 @@ char ft_built_char()
 int	ft_print_pile()
 {
 	ft_putchar(ft_built_char());
+	ft_putchar('\n');
 }
 
 // range chaque bit recu dans une liste chainee, confirme reception du bit
@@ -51,11 +52,8 @@ void ft_receive_bits(int signum, siginfo_t *info, void *context)
 	//printf("new->bit : %d\n", new->bit);
 	count_bits = ft_lstsize(g_pile);
 	//printf("count_bits = %d\n", count_bits);
-	if  (count_bits % 8 == 0)
-	{
+	if  (count_bits >= 8 && count_bits % 8 == 0)
 		ft_print_pile();
-		//count_bits = 0;
-	}
 	if (ft_roger(info->si_pid, 0) == SIG_ERROR)
 		return ;
 }
