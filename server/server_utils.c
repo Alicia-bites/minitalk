@@ -21,3 +21,4 @@ int ft_count_bits(void)
 {
     return(ft_lstsize(g_pile));
 }
+

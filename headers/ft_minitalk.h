@@ -62,5 +62,6 @@ int    		ft_panic(int errcode);
 int    		ft_send_bit(int bit, int tries);
 int 		t_send_char(char c);
 int    		ft_send_msg(char *msg);
+int			ft_null_byte();
 
 # endif

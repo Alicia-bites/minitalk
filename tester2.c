@@ -1,23 +1,43 @@
-#include "minitalk.h"
+#include "headers/ft_minitalk.h"
 
-void ft_receive_bits(int signum, siginfo_t *info, void *context)
+t_lined_up *g_pile = NULL;
+
+int	ft_null_byte(t_lined_up *g_pile)
 {
-	t_lined_up *new;
-	int count_bits;
+	t_lined_up *iterator;
+	int	i;
 
-	(void)context;
-	if (signum == SIGUSR1)
-		new = ft_lstnew(1, info->si_pid);
-	if (signum == SIGUSR2)
-		new = ft_lstnew(0, info->si_pid);
-	ft_lstadd_back(&g_pile, new);
-	if (ft_roger(info->si_pid, 0) == SIG_ERROR)
-		return ;
-	if (ft_lstsize(g_pile) == 8)
-		ft_putchar(ft_built_char());
+	iterator = g_pile;
+	i = 7;
+	while (i-- >= 0 && iterator)
+		if (iterator->bit != 0)
+			return (-1);
+	return (0);
 }
 
 int main()
 {
+
+    t_lined_up *iterator;
+    pid_t pid_test;
+    int i;
+    t_lined_up *new;
+
+    i = 0;
+    pid_test = 1234;
     
+    while (i < 8)
+    {
+        new = ft_lstnew(1, pid_test++);
+        ft_lstadd_back(&g_pile, new);
+        i++;
+    }
+    // iterator = g_pile;
+    // while (iterator)
+    // {
+    //     printf("%d %d\n", iterator->bit, iterator->pid);
+    //     iterator = iterator->next;
+    // }
+    printf("%d\n", ft_null_byte(g_pile));
+    return (0);
 }

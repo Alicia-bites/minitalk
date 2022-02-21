@@ -2,6 +2,21 @@
 #include "../headers/ft_minitalk.h"
 t_lined_up *g_pile = NULL;
 
+//check if last char sent is null byte
+int	ft_null_byte()
+{
+	t_lined_up *iterator;
+	int	i;
+
+	iterator = g_pile;
+	i = 7;
+	printf("interator->bit : %d\n", iterator->bit);
+	while (i-- >= 0 && iterator)
+		if (iterator->bit != 0)
+			return (0);
+	return (1);
+}
+
 // envoie un message "bien recu" si le serveur a bien recu le bit envoye par le client
 int ft_roger(pid_t pid, int tries)
 {
@@ -9,6 +24,7 @@ int ft_roger(pid_t pid, int tries)
 		return (SIG_ERROR);
 	if (kill(pid, SIGUSR1) == SIG_ERROR)
 		ft_roger(pid, tries + 1);
+	return (0);
 }
 
 //recupere les bits ranges dans la liste chainee et les transforme en char
@@ -31,10 +47,10 @@ char ft_built_char()
 	return (c);
 }
 
-int	ft_print_pile()
+void	ft_print_pile()
 {
-	
 	ft_putchar(ft_built_char());
+	//ft_putchar('\n');
 }
 
 // range chaque bit recu dans une liste chainee, confirme reception du bit
@@ -52,7 +68,7 @@ void ft_receive_bits(int signum, siginfo_t *info, void *context)
 	//printf("new->bit : %d\n", new->bit);
 	count_bits = ft_lstsize(g_pile);
 	//printf("count_bits = %d\n", count_bits);
-	if  (count_bits >= 8 && count_bits % 8 == 0)
+	if (count_bits >= 8 && count_bits % 8 == 0)
 		ft_print_pile();
 	if (ft_roger(info->si_pid, 0) == SIG_ERROR)
 		return ;
