@@ -25,7 +25,7 @@ char ft_built_char()
 	{
 		c += (iterator->bit << 7-i++);
 		//printf("c : %d\n", c);
-		//printf("iterator->bit : %d\n", iterator->bit);
+		printf("iterator->bit : %d\n", iterator->bit);
 		iterator = iterator->next;
 	}
 	return (c);
