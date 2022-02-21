@@ -16,25 +16,25 @@ char ft_built_char()
 { 
 	int i;
 	unsigned char c;
-	t_lined_up *iterator;
+	//t_lined_up *iterator;
 
-	iterator = g_pile;
+	//iterator = g_pile;
 	i = 0;
 	c = 0;
-	while (i <= 7 && iterator) 
+	while (i <= 7 && g_pile) 
 	{
-		c += (iterator->bit << 7-i++);
+		c += (g_pile->bit << 7-i++);
 		//printf("c : %d\n", c);
-		printf("iterator->bit : %d\n", iterator->bit);
-		iterator = iterator->next;
+		//printf("g_pile->bit : %d\n", g_pile->bit);
+		g_pile = g_pile->next;
 	}
 	return (c);
 }
 
 int	ft_print_pile()
 {
+	
 	ft_putchar(ft_built_char());
-	ft_putchar('\n');
 }
 
 // range chaque bit recu dans une liste chainee, confirme reception du bit
