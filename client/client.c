@@ -13,7 +13,7 @@ int    ft_send_bit(int bit, int tries)
         bit_sent = SIGUSR1;
     if (bit == 0)
         bit_sent = SIGUSR2;
-    printf("bit_sent : %d\n", bit);
+    //printf("bit_sent : %d\n", bit);
     if (kill(g_client.srv_pid, bit_sent) == SIG_ERROR)
         ft_send_bit(bit, tries + 1);
 }
@@ -24,7 +24,7 @@ int ft_send_char(char c)
     int res = 0;
     static int i = 7;
     
-    printf("g_client.flags : %d\n", g_client.flags);
+    //printf("g_client.flags : %d\n", g_client.flags);
     while (i >= 0 && g_client.flags == PONG_OK)
     {
         //printf("%d\n", i);
@@ -46,10 +46,9 @@ int    ft_send_msg(char *msg)
     i = 0;
     while (msg[i])
     {
-        //printf("msg: %c\n", msg[i]);
-        if (ft_send_char(msg[i]) == SIG_ERROR)
+        printf("msg: %c\n", msg[i]);
+        if (ft_send_char(msg[i++]) == SIG_ERROR)
             return (SIG_ERROR);
-        i++;
     }
     if (*msg = '\0' && g_client.flags == PONG_OK)
         if (ft_msg_ender() == SIG_ERROR)
@@ -62,8 +61,8 @@ void	handler(int signum)
 {
 	if (signum == SIGUSR1)
     {
-        ft_send_msg(g_client.msg);
         g_client.flags = PONG_OK;
+        ft_send_msg(g_client.msg);
     }
     if (signum == SIGUSR2)
         g_client.flags = MSG_ACK;
