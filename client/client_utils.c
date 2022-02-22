@@ -32,12 +32,3 @@ int ft_msg_ender(void)
             return (-1);
     return (0);
 }
-
-//verifie que le PID entre en parametre est compose uniquement de chiffres
-int pid_is_valid(char *s)
-{
-    while (*s)
-        if (!ft_isdigit(*s++))
-		    return (0);
-	return (1);
-}

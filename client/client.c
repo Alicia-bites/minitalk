@@ -33,7 +33,7 @@ int ft_send_char(char c)
         g_client.flags = 0;
         if (ft_send_bit(res, 0) == SIG_ERROR)
             return (SIG_ERROR);
-        usleep(10000);
+        usleep(30000);
         if (i == 0)
         { 
             g_client.bits_sent = CHAR_SENT;
@@ -60,7 +60,7 @@ int    ft_send_msg(char *msg)
         //printf("msg: %c\n", msg[i]);
         if (ft_send_char(msg[i]) == SIG_ERROR)
             return (SIG_ERROR);
-        usleep(10000);
+        //usleep(10000);
     }
     if (*msg = '\0' && g_client.flags == PONG_OK)
         if (ft_msg_ender() == SIG_ERROR)
