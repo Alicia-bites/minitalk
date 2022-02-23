@@ -38,7 +38,7 @@ typedef struct s_client
 
 enum e_client_flags
 {
-	MSG_ACK=1,
+	MSG_R=1,
 	PONG_OK=2,
 	CHAR_SENT=3	
 };
