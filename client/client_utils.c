@@ -15,7 +15,7 @@ int    ft_panic(int errcode)
     else if (errcode == SRV_TIMEOUT)
         ft_putstr("Impossible to reach server", 1);
     else if (errcode == NO_ROGER)
-        ft_putstr("Sorry. Your message has not been delivered", 1);
+        ft_putstr("Sorry. Your message has not been received by the server", 1);
     else if (errcode == SIG_ERROR)
         ft_putstr("Signal error. Server might be down.", 1);
     return (errcode);

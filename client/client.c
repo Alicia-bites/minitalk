@@ -19,21 +19,18 @@ int    ft_send_bit(int bit, int tries)
 }
 
 // envoie chaque caractere bit par bit en commencant par le bit le plus fort
-int ft_send_char(char c)
+static int ft_send_char(char c)
 {
     int res = 0;
     static int i = 7;
-    printf("c : %c\n", c);
-    //printf("g_client.flags : %d\n", g_client.flags);
     while (i >= 0 && g_client.flags == PONG_OK)
     {
-        //printf("%d\n", i);
         res = (c >> i) & 1;
         printf("res : %d\n", res);
         g_client.flags = 0;
         if (ft_send_bit(res, 0) == SIG_ERROR)
             return (SIG_ERROR);
-        usleep(30000);
+        usleep(10000);
         if (i == 0)
         { 
             g_client.bits_sent = CHAR_SENT;
@@ -46,42 +43,38 @@ int ft_send_char(char c)
 }
 
 //get client msg string and send it char by char to ft_send_char
-int    ft_send_msg(char *msg)
+static int    ft_send_msg(char *msg)
 {
     int i;
 
     i = 0;
-    //printf("g_client.flags : %d\n", g_client.flags);
     while (msg[i] && g_client.flags == PONG_OK)
     {
         
         if (g_client.bits_sent == CHAR_SENT)
             i++;
-        //printf("msg: %c\n", msg[i]);
         if (ft_send_char(msg[i]) == SIG_ERROR)
             return (SIG_ERROR);
-        //usleep(10000);
+        usleep(10000);
     }
     if (*msg = '\0' && g_client.flags == PONG_OK)
         if (ft_msg_ender() == SIG_ERROR)
             return (SIG_ERROR);
+    usleep(10000);
     return (0);
 }
 
 //When SIGUSR1 is received, place the mask MSG_ACK and call ft_send_msg to send next bit
-void	handler(int signum)
+static void	handler(int signum)
 {
 	if (signum == SIGUSR1)
-    {
         g_client.flags = PONG_OK;
-        //ft_send_msg(g_client.msg);
-    }
     if (signum == SIGUSR2)
         g_client.flags = MSG_ACK;
 }
 
 //set up sigaction. When signal SIGUSR1 received --> send next bit
-int ft_set_sigaction (void)
+static int ft_set_sigaction (void)
 {
     struct sigaction action;
 
@@ -116,10 +109,10 @@ int main(int argc, char **argv)
     //printf("msg_error : %d\n", msg_error);
     if (msg_error != 0)
         return (ft_panic(SIG_ERROR));
-    // usleep(500);
-	// if (!(g_client.flags & MSG_ACK))
-	// 	return (ft_panic(NO_ROGER));
-	// else
-	// 	ft_putstr("Your message has been delivered successfully!", 1);
+    usleep(50000);
+	if (g_client.flags != MSG_ACK)
+		return (ft_panic(NO_ROGER));
+	else
+		ft_putstr("Your message has been received by the server!", 1);
     return (0);
 }

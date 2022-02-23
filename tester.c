@@ -19,19 +19,21 @@ t_lined_up *g_pile;
 // 	return (c);
 // }
 
-int	ft_lstsize(t_lined_up *lst)
+void	ft_lstclear(t_lined_up **lst)
 {
-	int	i;
+	t_lined_up	*iterator;
+	t_lined_up	*prev;
 
-	i = 0;
-	while (lst)
+	iterator = *lst;
+	prev = NULL;
+	while (iterator)
 	{
-		lst = lst->next;
-		i++;
+		prev = iterator;
+		iterator = iterator->next;
+		free(prev);
 	}
-	return (i);
+	*lst = NULL;
 }
-
 
 int main()
 {
@@ -56,6 +58,12 @@ int main()
         printf("%d %d\n", iterator->bit, iterator->pid);
         iterator = iterator->next;
     }
-    printf("%d\n", ft_lstsize(g_pile));
+    ft_lstclear(&g_pile);
+    iterator = g_pile;
+    while (iterator)
+    {
+        printf("%d %d\n", iterator->bit, iterator->pid);
+        iterator = iterator->next;
+    }
     return (0);
 }

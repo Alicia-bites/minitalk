@@ -23,6 +23,7 @@ typedef struct s_lined_up
 {
 	int	  				bit;
 	pid_t 				pid;
+	int					srv_flag;
 	struct s_lined_up	*next;
 }	t_lined_up;
 
@@ -37,31 +38,26 @@ typedef struct s_client
 
 enum e_client_flags
 {
-	MSG_ACK=0x01,
-	PONG_OK=0x02,
-	CHAR_SENT=0x03	
+	MSG_ACK=1,
+	PONG_OK=2,
+	CHAR_SENT=3	
 };
 
 extern t_client		g_client;
 extern t_lined_up	*g_pile;
 
 t_lined_up	*ft_lstnew(int bit, pid_t pid);
-void		ft_lstadd_back(t_lined_up **first_elt, t_lined_up *new);
-int    		ft_roger(pid_t pid, int tries);
-void    	ft_receive_bits(int signum, siginfo_t *info, void *context);
-int			ft_lstsize(t_lined_up *lst);
-int 		ft_msg_ender();
+int	    	ft_strlen(const char *s);
+int	    	ft_atoi(const char *str);
 void		ft_putchar(char c);
 void		ft_putstr(char *s, int isend);
 void		ft_putnbr(int n);
-int	    	ft_atoi(const char *str);
-int	    	ft_isdigit(int c);
-int	    	ft_strlen(const char *s);
-int 		pid_is_valid(char *s);
+void		ft_lstadd_back(t_lined_up **first_elt, t_lined_up *new);
+int			ft_lstsize(t_lined_up *lst);
+void		ft_lstclear(t_lined_up **lst);
+int 		ft_msg_ender();
 int    		ft_panic(int errcode);
 int    		ft_send_bit(int bit, int tries);
-int 		t_send_char(char c);
-int    		ft_send_msg(char *msg);
-int			ft_null_byte();
+
 
 # endif

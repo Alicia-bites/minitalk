@@ -1,8 +1,8 @@
 
 #include "../headers/ft_minitalk.h"
-t_lined_up *g_pile = NULL;
+t_lined_up *g_pile;
 
-//check if there is a list of 8 consecutive zero in g_pile ->
+//boolean that checks if there is a list of 8 consecutive zero in g_pile ->
 //to see if null byte has been sent.
 int	ft_null_byte()
 {
@@ -32,19 +32,27 @@ int	ft_null_byte()
 	return (0);
 }
 
-
 // envoie un message "bien recu" si le serveur a bien recu le bit envoye par le client
-int ft_roger(pid_t pid, int tries)
+int ft_roger(pid_t pid, int *msg_received, int tries)
 {
+	int	signal;
+
+	//printf("*msg_receveived : %d\n", *msg_received);
 	if (tries == MAX_RETRIES)
 		return (SIG_ERROR);
-	if (kill(pid, SIGUSR1) == SIG_ERROR)
-		ft_roger(pid, tries + 1);
+	if (*msg_received == 0)
+		signal = SIGUSR1;
+	if (*msg_received == 1)
+		signal = SIGUSR2;
+	printf("signal = %d\n", signal);
+	if (kill(pid, signal) == SIG_ERROR)
+		ft_roger(pid, msg_received, tries + 1);
+	*msg_received = 0;
 	return (0);
 }
 
 //recupere les bits ranges dans la liste chainee et les transforme en char
-char ft_built_char()
+char ft_built_char(pid_t pid, int *msg_received)
 { 
 	int i;
 	unsigned char c;
@@ -54,52 +62,84 @@ char ft_built_char()
 	while (i <= 7 && g_pile) 
 	{
 		c += (g_pile->bit << 7-i++);
-		//printf("g_pile->bit: %d\n", g_pile->bit);
 		g_pile = g_pile->next;
+	}
+	if (c == 0)
+	{
+		*msg_received = 1;
+		if (ft_roger(pid, msg_received, 0) == SIG_ERROR)
+		{
+			ft_putstr("signal error, reception not aknowledged", 1);
+			return (0);
+		}
 	}
 	return (c);
 }
 
-// void	ft_print_pile()
-// {
-// 		ft_putchar(ft_built_char());
-// }
+void	ft_print_msg(pid_t pid, int *msg_received)
+{
+	ft_putchar(ft_built_char(pid, msg_received));
+}
 
 // range chaque bit recu dans une liste chainee, confirme reception du bit
 void ft_receive_bits(int signum, siginfo_t *info, void *context)
 {
 	t_lined_up *new;
+	int msg_received;
 	static int count_bits = 0;
-	int	go_print;
-	t_lined_up *iterator;
 
 	(void)context;
+	msg_received = 0;
 	if (signum == SIGUSR1)
 		new = ft_lstnew(1, info->si_pid);
 	if (signum == SIGUSR2)
 		new = ft_lstnew(0, info->si_pid);
 	ft_lstadd_back(&g_pile, new);
-	printf("new->bit : %d\n", new->bit);
+	//printf("new->bit : %d\n", new->bit);
+	if (ft_roger(info->si_pid, &msg_received, 0) == SIG_ERROR)
+		return ;
 	count_bits = ft_lstsize(g_pile);
 	while (count_bits % 8 == 0 && ft_null_byte())
-		ft_putchar(ft_built_char());
-	if (ft_roger(info->si_pid, 0) == SIG_ERROR)
-		return ;
+		ft_print_msg(info->si_pid, &msg_received);
+}
+
+void	ft_quit(int signum)
+{
+	(void) signum;
+	ft_lstclear(&g_pile);
+	exit(1);
+}
+
+static int ft_set_sigaction (void)
+{
+    struct sigaction action;
+
+    sigemptyset(&action.sa_mask);
+	action.sa_flags = SA_SIGINFO;
+    action.sa_sigaction = ft_receive_bits;
+    if (sigaction(SIGUSR1, &action, 0) == -1)
+        return (-1);
+    if (sigaction(SIGUSR2, &action, 0) == -1)
+        return (-1);
+	sigemptyset(&action.sa_mask);
+    action.sa_flags = 0;
+    action.sa_sigaction = NULL;
+	action.sa_handler = &ft_quit; 
+	if (sigaction(SIGINT, &action, NULL) == -1)
+		return (-1);
+
+    return (0);
 }
 
 int main(int argc, char **argv)
 {
-	struct sigaction action;
-
-	action.sa_flags = SA_SIGINFO;
-	action.sa_sigaction = ft_receive_bits;
+	if (ft_set_sigaction() == -1)
+		ft_putstr("Setting up sigaction failed.", 1);
 	if (argc != 1)
 		ft_putstr("No parameters needed", 1);
 	ft_putstr("server pid : ", 0);
 	ft_putnbr(getpid());
 	ft_putchar('\n');
-	sigaction(SIGUSR1, &action, NULL);
-	sigaction(SIGUSR2, &action, NULL);
 	while (1)
 		pause();
 	return (1);

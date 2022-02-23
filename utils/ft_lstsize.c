@@ -6,11 +6,12 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 16:49:04 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/16 19:00:34 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/23 14:26:36 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/ft_minitalk.h"
+
 int	ft_lstsize(t_lined_up *lst)
 {
 	int	i;
