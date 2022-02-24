@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:17:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/24 16:30:05 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:51:35 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int    ft_send_bit(int bit, int tries)
         signal = SIGUSR1;
     if (bit == 0)
         signal = SIGUSR2;
-    //printf("bit : %d", bit);
     if (kill(g_client.srv_pid, signal) == SIG_ERROR)
         ft_send_bit(bit, tries + 1);
 }
@@ -91,7 +90,7 @@ void	handler(int signum, siginfo_t *info, void *context)
     if (signum == SIGUSR2)
     {
         g_client.flags = MSG_R;
-        ft_putstr("ft_putstr("Your message has been received by the server!", 1);");
+        ft_putstr("Your message has been received by the server!", 1);
         exit(EXIT_SUCCESS);
     }
 }
@@ -100,16 +99,6 @@ void	handler(int signum, siginfo_t *info, void *context)
 static int ft_set_sigaction (void)
 {
     struct sigaction action;
-
-    /*sigemptyset(&action.sa_mask);
-    action.sa_sigaction = NULL;
-    action.sa_handler = &handler;
-    if (sigaction(SIGUSR1, &action, 0) == -1)
-        return (-1);
-    if (sigaction(SIGUSR2, &action, 0) == -1)
-        return (-1);
-    return (0);*/
-
     action.sa_sigaction = handler;
     action.sa_flags = SA_SIGINFO;
     sigemptyset(&action.sa_mask);
@@ -144,9 +133,4 @@ int main(int argc, char **argv)
         return (ft_panic(SIG_ERROR));
     while (1)
         pause();
-	if (g_client.flags != MSG_R)
-		return (ft_panic(NO_ROGER));
-	if (g_client.flags == MSG_R)
-		ft_putstr("Your message has been received by the server!", 1);
-    return (0);
 }
