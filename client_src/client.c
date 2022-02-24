@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 14:17:22 by amarchan          #+#    #+#             */
+/*   Updated: 2022/02/24 14:17:25 by amarchan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/ft_minitalk.h"
 
 t_client	g_client;
@@ -38,10 +50,11 @@ static int ft_send_char(char c)
             i = 7;
             return (0);
         }
+        puts("before 1");
         while (g_client.flags != PONG_OK)
             pause();
         //printf("i : %d\n", i);
-        //puts("yo");
+        puts("after 1");
         i--;
     }
     return (0);
@@ -62,14 +75,14 @@ static int    ft_send_msg(char *msg)
             i++;
         if (ft_send_char(msg[i]) == SIG_ERROR)
             return (SIG_ERROR);
+        puts("before 2");
         while (g_client.flags != PONG_OK)
             pause();
+        puts("before 2");
     }
     if (*msg = '\0' && g_client.flags == PONG_OK)
         if (ft_msg_ender() == SIG_ERROR)
             return (SIG_ERROR);
-    while (g_client.flags != PONG_OK)
-        pause();
     return (0);
 }
 

@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ft_putendl.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/23 08:55:16 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/16 19:00:34 by amarchan         ###   ########.fr       */
+/*   Created: 2021/12/02 15:43:47 by amarchan          #+#    #+#             */
+/*   Updated: 2022/02/24 14:13:49 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/ft_minitalk.h"
-int	ft_isdigit(int c)
+
+void	ft_putendl(char *s)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	if (!s)
+		return ;
+	ft_putstr(s, 0);
+	ft_putchar('\n');
 }

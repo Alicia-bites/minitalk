@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 14:16:58 by amarchan          #+#    #+#             */
+/*   Updated: 2022/02/24 14:17:28 by amarchan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/ft_minitalk.h"
 
 int    ft_panic(int errcode)
@@ -28,7 +40,11 @@ int ft_msg_ender(void)
 
     i = 0;
     while (i++ < 8)
+    {
         if (ft_send_bit(0, 0) == -1)
             return (-1);
+        while (g_client.flags != PONG_OK)
+            pause();
+    }
     return (0);
 }
