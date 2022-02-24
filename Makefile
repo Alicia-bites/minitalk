@@ -51,8 +51,8 @@ clean:
 	@${RM} ${OBJS2}
 
 fclean: clean
-	@${RM} $(NAME1)
-	@${RM} ${NAME2)
+	@${RM} ${NAME1}
+	@${RM} ${NAME2}
 
 re: fclean all
 
