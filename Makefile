@@ -22,8 +22,8 @@ SRCS2 =	server_src/server.c \
 	  	utils/ft_lstadd_back.c \
 	  	utils/ft_lstclear.c \
 
-OBJS1 := ${SRCS1: .c=.o}
-OBJS2 := ${SRCS2: .c=.o}
+OBJS1 := ${SRCS1:.c=.o}
+OBJS2 := ${SRCS2:.c=.o}
 
 CC = gcc
 

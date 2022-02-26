@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/24 17:51:51 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/26 14:35:36 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char ft_built_char(pid_t pid, int *msg_received)
 	c = 0;
 	while (i <= 7 && g_pile) 
 	{
-		c += (g_pile->bit << 7-i++);
+		c += (g_pile->bit << (7-i++));
 		g_pile = g_pile->next;
 	}
 	if (c == 0)
@@ -130,7 +130,9 @@ static int ft_set_sigaction (void)
     if (sigaction(SIGUSR1, &action, 0) == -1)
         return (-1);
     if (sigaction(SIGUSR2, &action, 0) == -1)
-        return (-1);
+	{
+		return (-1);
+	}
 	sigemptyset(&action.sa_mask);
     action.sa_flags = 0;
     action.sa_sigaction = NULL;
@@ -143,6 +145,7 @@ static int ft_set_sigaction (void)
 
 int main(int argc, char **argv)
 {
+	(void) argv;
 	if (ft_set_sigaction() == -1)
 		ft_putstr("Setting up sigaction failed.", 1);
 	if (argc != 1)

@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:17:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/24 17:51:35 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/26 14:33:04 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int    ft_send_bit(int bit, int tries)
         signal = SIGUSR2;
     if (kill(g_client.srv_pid, signal) == SIG_ERROR)
         ft_send_bit(bit, tries + 1);
+    return (0);
 }
 
 //Break char down to bits,
@@ -73,7 +74,7 @@ static int    ft_send_msg(char *msg)
         while (g_client.flags != PONG_OK)
             pause();
     }
-    if (*msg = '\0' && g_client.flags == PONG_OK)
+    if ((msg[i] = '\0') && g_client.flags == PONG_OK)
         if (ft_msg_ender() == SIG_ERROR)
             return (SIG_ERROR);
     return (0);
@@ -84,6 +85,7 @@ static int    ft_send_msg(char *msg)
 void	handler(int signum, siginfo_t *info, void *context)
 {
     (void) context;
+    (void) info;
 	if (signum == SIGUSR1)
         g_client.flags = PONG_OK;
         
