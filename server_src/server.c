@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/26 14:35:36 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/26 17:19:12 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ int	ft_null_byte()
 
 	count_bits = 0;
 	iterator = g_pile;
+	//printf("g_pile : %p\n", g_pile);
 	while (iterator)
 	{
 		if (count_bits % 8 == 0)
 		{
 			i = 0;
-            while (iterator->bit == 0)
+            while (iterator->next && iterator->bit == 0)
             {  
                 i++;
                 iterator = iterator->next;
@@ -77,6 +78,7 @@ char ft_built_char(pid_t pid, int *msg_received)
 	if (c == 0)
 	{
 		*msg_received = 1;
+		ft_lstclear(&g_pile);
 		if (ft_roger(pid, msg_received, 0) == SIG_ERROR)
 		{
 			ft_putstr("signal error, reception not aknowledged", 1);
@@ -84,11 +86,6 @@ char ft_built_char(pid_t pid, int *msg_received)
 		}
 	}
 	return (c);
-}
-
-void	ft_print_msg(pid_t pid, int *msg_received)
-{
-	ft_putchar(ft_built_char(pid, msg_received));
 }
 
 // range chaque bit recu dans une liste chainee, confirme reception du bit
@@ -104,13 +101,14 @@ void ft_receive_bits(int signum, siginfo_t *info, void *context)
 		new = ft_lstnew(1, info->si_pid);
 	if (signum == SIGUSR2)
 		new = ft_lstnew(0, info->si_pid);
+	//printf("bit received : %d\n", new->bit);
 	ft_lstadd_back(&g_pile, new);
-	//printf("new->bit : %d\n", new->bit);
+	//printf("g_pile : %p\n", g_pile);
 	if (ft_roger(info->si_pid, &msg_received, 0) == SIG_ERROR)
 		return ;
 	count_bits = ft_lstsize(g_pile);
 	while (count_bits % 8 == 0 && ft_null_byte())
-		ft_print_msg(info->si_pid, &msg_received);
+		ft_putchar(ft_built_char(info->si_pid, &msg_received));
 }
 
 void	ft_quit(int signum)
@@ -139,7 +137,6 @@ static int ft_set_sigaction (void)
 	action.sa_handler = &ft_quit; 
 	if (sigaction(SIGINT, &action, NULL) == -1)
 		return (-1);
-
     return (0);
 }
 

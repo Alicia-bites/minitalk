@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:17:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/26 14:33:04 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/26 17:10:36 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int ft_send_char(char c)
             return (0);
         }
         while (g_client.flags != PONG_OK)
-            pause();
+            usleep(300000);
         i--;
     }
     return (0);

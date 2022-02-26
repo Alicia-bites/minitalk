@@ -27,7 +27,7 @@ OBJS2 := ${SRCS2:.c=.o}
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g3 -Wall -Wextra -Werror
 
 AR = ar rcs
 
