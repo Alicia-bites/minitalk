@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:36 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/24 14:17:39 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/27 11:18:37 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,18 @@
 # define SRV_TIMEOUT -6
 # define SIGACT_FAIL -7
 
-#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
-#include <signal.h>
-#include <unistd.h>
-#include <stdint.h>
-#include <stdlib.h>
+# include <stdio.h>
+# include <string.h>
+# include <sys/types.h>
+# include <signal.h>
+# include <unistd.h>
+# include <stdint.h>
+# include <stdlib.h>
 
 typedef struct s_lined_up
 {
-	int	  				bit;
-	pid_t 				pid;
+	int					bit;
+	pid_t				pid;
 	int					srv_flag;
 	struct s_lined_up	*next;
 }	t_lined_up;
@@ -59,17 +59,18 @@ extern t_client		g_client;
 extern t_lined_up	*g_pile;
 
 t_lined_up	*ft_lstnew(int bit, pid_t pid);
-int	    	ft_strlen(const char *s);
-int	    	ft_atoi(const char *str);
+int			ft_strlen(const char *s);
+int			ft_atoi(const char *str);
 void		ft_putchar(char c);
 void		ft_putstr(char *s, int isend);
 void		ft_putnbr(int n);
 void		ft_lstadd_back(t_lined_up **first_elt, t_lined_up *new);
 int			ft_lstsize(t_lined_up *lst);
 void		ft_lstclear(t_lined_up **lst);
-int 		ft_msg_ender();
-int    		ft_panic(int errcode);
-int    		ft_send_bit(int bit, int tries);
+int			ft_msg_ender(void);
+int			ft_panic(int errcode);
+int			ft_send_bit(int bit, int tries);
+void		ft_quit(int signum);
+int			ft_null_byte(void);
 
-
-# endif
+#endif
