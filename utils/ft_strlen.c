@@ -6,21 +6,22 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 08:42:58 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/18 18:03:45 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/27 11:53:28 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/ft_minitalk.h"
+
 int	ft_strlen(const char *s)
 {
 	int	i;
 
 	if (s)
 	{
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-	} 
+		i = 0;
+		while (s[i])
+			i++;
+		return (i);
+	}
 	return (0);
 }

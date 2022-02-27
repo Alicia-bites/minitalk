@@ -6,11 +6,12 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 15:02:59 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/18 18:42:34 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/27 11:47:50 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/ft_minitalk.h"
+
 static int	ft_isspace(int c)
 {
 	if (c == ' ' || c == '\f' || c == '\n'
@@ -18,6 +19,7 @@ static int	ft_isspace(int c)
 		return (1);
 	return (0);
 }
+
 int	ft_atoi(const char *str)
 {
 	int	i;
