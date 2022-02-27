@@ -6,31 +6,46 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:11 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/24 14:17:33 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/27 11:15:13 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/ft_minitalk.h"
 
-// compte le nombre de PID uniques dans la liste chainee 
-int ft_count_clients(void)
+//clean before when sudden exit
+void	ft_quit(int signum)
 {
-    int n;
-    pid_t ex_pid;
-
-    n = 0;
-    while(g_pile)
-    {
-        ex_pid = g_pile->pid;
-        g_pile = g_pile->next;
-        if (ex_pid != g_pile->pid)
-            n++;
-    }
-    return (n);
+	(void) signum;
+	ft_lstclear(&g_pile);
+	exit(1);
 }
 
-//compte le nombre de bits envoyes par le client
-int ft_count_bits(void)
+//boolean that checks if there is a list of 8 consecutive zero in g_pile ->
+//to see if null byte has been sent.
+int	ft_null_byte(void)
 {
-    return(ft_lstsize(g_pile));
+	int			i;
+	int			count_bits;
+	t_lined_up	*iterator;
+
+	count_bits = 0;
+	iterator = g_pile;
+	while (iterator)
+	{
+		if (count_bits % 8 == 0)
+		{
+			i = 0;
+			while (iterator->next && iterator->bit == 0)
+			{
+				i++;
+				iterator = iterator->next;
+				count_bits++;
+				if (i == 7)
+					return (1);
+			}
+		}
+		iterator = iterator->next;
+		count_bits++;
+	}
+	return (0);
 }
