@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:58 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/27 16:52:22 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/27 18:20:54 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	ft_msg_ender(void)
 int	ft_send_bit(int bit, int tries)
 {
 	int	signal;
-	static int i = 1;
 	
 	if (tries >= MAX_RETRIES)
 		return (SIG_ERROR);
@@ -59,9 +58,7 @@ int	ft_send_bit(int bit, int tries)
 		signal = SIGUSR1;
 	if (bit == 0)
 		signal = SIGUSR2;
-	printf("%d signal : %d\n", i, signal);
 	if (kill(g_client.srv_pid, signal) == SIG_ERROR)
 		ft_send_bit(bit, tries + 1);
-	i++;
 	return (0);
 }
