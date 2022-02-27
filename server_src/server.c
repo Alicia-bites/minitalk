@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/27 11:55:43 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/27 17:13:53 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_lined_up	*g_pile;
 int	ft_roger(pid_t pid, int *msg_received, int tries)
 {
 	int	signal;
+	static int i = 1;
 
 	if (tries == MAX_RETRIES)
 		return (SIG_ERROR);
@@ -26,9 +27,11 @@ int	ft_roger(pid_t pid, int *msg_received, int tries)
 		signal = SIGUSR1;
 	if (*msg_received == 1)
 		signal = SIGUSR2;
+	//printf("%d signal : %d\n", i, signal);
 	if (kill(pid, signal) == SIG_ERROR)
 		ft_roger(pid, msg_received, tries + 1);
 	*msg_received = 0;
+	i++;
 	return (0);
 }
 

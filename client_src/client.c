@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:17:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/27 11:43:10 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/27 17:23:51 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	ft_send_char(char c)
 			return (0);
 		}
 		while (g_client.flags != PONG_OK)
-			usleep(300000);
+			pause();
 		i--;
 	}
 	return (0);
@@ -52,6 +52,7 @@ static int	ft_send_msg(char *msg)
 	int	i;
 
 	i = 0;
+	msg = ft_strcat(g_client.msg, "\n");
 	while (msg[i] && g_client.flags == PONG_OK)
 	{
 		if (g_client.bits_sent == CHAR_SENT)
@@ -61,9 +62,8 @@ static int	ft_send_msg(char *msg)
 		while (g_client.flags != PONG_OK)
 			pause();
 	}
-	if ((msg[i] == '\0') && g_client.flags == PONG_OK)
-		if (ft_msg_ender() == SIG_ERROR)
-			return (SIG_ERROR);
+	// if (ft_msg_ender() == SIG_ERROR)
+	// 	return (SIG_ERROR);
 	return (0);
 }
 
@@ -79,7 +79,6 @@ void	handler(int signum, siginfo_t *info, void *context)
 		g_client.flags = PONG_OK;
 	if (signum == SIGUSR2)
 	{
-		g_client.flags = MSG_R;
 		ft_putstr("Your message has been received by the server!", 1);
 		exit(EXIT_SUCCESS);
 	}
