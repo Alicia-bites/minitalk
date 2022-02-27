@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/27 11:07:50 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/27 11:55:43 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	ft_receive_bits(int signum, siginfo_t *info, void *context)
 static int	ft_set_sigaction(void)
 {
 	struct sigaction	action;
-	
+
 	sigemptyset(&action.sa_mask);
 	action.sa_flags = SA_SIGINFO;
 	action.sa_sigaction = ft_receive_bits;
