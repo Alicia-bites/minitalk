@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:36 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/27 16:42:57 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/28 15:49:02 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,7 @@ int			ft_panic(int errcode);
 int			ft_send_bit(int bit, int tries);
 void		ft_quit(int signum);
 int			ft_null_byte(void);
+int			ft_isdigit(int c);
+int 		pid_is_valid(char *s);
 
 #endif

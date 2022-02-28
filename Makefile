@@ -8,6 +8,7 @@ SRCS1 = client_src/client.c \
 		utils/ft_putchar.c \
 		utils/ft_strcat.c \
 		utils/ft_putstr.c \
+		utils/ft_isdigit.c \
 
 SRCS2 =	server_src/server.c \
 		server_src/server_utils.c \

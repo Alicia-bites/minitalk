@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:58 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/27 18:20:54 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/28 15:49:02 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,25 @@ int	ft_panic(int errcode)
 	else if (errcode == SIGACT_FAIL)
 		ft_putstr("Setting up sigaction failed.", 1);
 	else if (errcode == INVALID_PID)
-		ft_putstr("Invalid P.I.D. P.I.D. must be digits only.", 1);
+		ft_putstr("Invalid PID : PID must be a positive integer.", 1);
 	else if (errcode == EMPTY_STR)
 		ft_putstr("Empty string.", 1);
-	else if (errcode == SRV_TIMEOUT)
-		ft_putstr("Impossible to reach server", 1);
+	// else if (errcode == SRV_TIMEOUT)
+	// 	ft_putstr("Impossible to reach server", 1);
 	else if (errcode == SIG_ERROR)
-		ft_putstr("Signal error. Server might be down.", 1);
+		ft_putstr("Signal error. Server down or wrong PID", 1);
 	return (errcode);
+}
+
+//check if PID is valid
+int pid_is_valid(char *s)
+{
+    while (*s)
+	{
+		if (!ft_isdigit(*s++))
+			return (0);
+	}
+	return (1);
 }
 
 //termine le message du client par un '\0' soit 8 bits à 0

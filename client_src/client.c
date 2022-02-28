@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:17:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/27 17:23:51 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/02/28 15:49:03 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ static int	ft_send_msg(char *msg)
 		while (g_client.flags != PONG_OK)
 			pause();
 	}
-	// if (ft_msg_ender() == SIG_ERROR)
-	// 	return (SIG_ERROR);
 	return (0);
 }
 
@@ -113,7 +111,7 @@ int	main(int argc, char **argv)
 	g_client.srv_pid = ft_atoi(argv[1]);
 	g_client.flags = PONG_OK;
 	g_client.bits_sent = 0;
-	if (g_client.srv_pid <= 0)
+	if (g_client.srv_pid <= 0 || pid_is_valid(argv[1]) == 0)
 		return (ft_panic(INVALID_PID));
 	if (g_client.msg_len == 0)
 		return (ft_panic(EMPTY_STR));
