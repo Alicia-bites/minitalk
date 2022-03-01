@@ -21,7 +21,7 @@ SRCS2 =	server_src/server.c \
 		utils/ft_lstnew.c \
 	  	utils/ft_lstsize.c \
 	  	utils/ft_lstadd_back.c \
-	  	utils/ft_lstclear.c \
+	  	utils/ft_lstclear_back.c \
 
 OBJS1 := ${SRCS1:.c=.o}
 OBJS2 := ${SRCS2:.c=.o}
