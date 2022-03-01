@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:58 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/28 15:49:02 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/01 18:05:26 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	ft_send_bit(int bit, int tries)
 		signal = SIGUSR1;
 	if (bit == 0)
 		signal = SIGUSR2;
+	printf("signal : %d\n", signal);
 	if (kill(g_client.srv_pid, signal) == SIG_ERROR)
-		ft_send_bit(bit, tries + 1);
+		return (ft_send_bit(bit, tries + 1));
 	return (0);
 }
