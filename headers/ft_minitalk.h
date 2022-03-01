@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:36 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/28 15:49:02 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/01 16:30:54 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_lined_up
 	int					bit;
 	pid_t				pid;
 	int					srv_flag;
+	struct s_lined_up	*prev;
 	struct s_lined_up	*next;
 }	t_lined_up;
 
@@ -66,7 +67,7 @@ void		ft_putstr(char *s, int isend);
 void		ft_putnbr(int n);
 void		ft_lstadd_back(t_lined_up **first_elt, t_lined_up *new);
 int			ft_lstsize(t_lined_up *lst);
-void		ft_lstclear(t_lined_up **lst);
+void		ft_lstclear_back(t_lined_up **lst);
 int			ft_msg_ender(void);
 char 		*ft_strcat(char *dest, char *src);
 int			ft_panic(int errcode);
