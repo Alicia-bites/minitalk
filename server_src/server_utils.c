@@ -6,16 +6,18 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:11 by amarchan          #+#    #+#             */
-/*   Updated: 2022/03/01 17:24:09 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/01 17:48:12 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/ft_minitalk.h"
 
 //clean before when sudden exit
-void	ft_quit(int signum)
+void	ft_quit(int signum, siginfo_t *info, void *context)
 {
 	(void) signum;
+	(void) info;
+	(void) context;
 	if (!g_pile)
 		exit(EXIT_SUCCESS);
 	ft_lstclear_back(&g_pile);
