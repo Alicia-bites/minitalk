@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 17:53:03 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/27 11:48:27 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/01 16:32:39 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ void	ft_lstadd_back(t_lined_up **first_elt, t_lined_up *new)
 		else
 		{	
 			while (iterator->next)
-				iterator = iterator->next;
+                iterator = iterator->next;
 			iterator->next = new;
+            new->prev = iterator;
 		}
 	}
 }
