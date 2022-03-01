@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/03/01 17:50:15 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/01 17:53:39 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,18 @@ static int	ft_set_sigaction(void)
 {
 	struct sigaction	action;
 
-	sigemptyset(&action.sa_mask);
-	action.sa_flags = SA_SIGINFO;
 	action.sa_sigaction = ft_receive_bits;
+	action.sa_flags = SA_SIGINFO;
+	sigemptyset(&action.sa_mask);
 	sigaddset(&action.sa_mask, SIGUSR1);
 	sigaddset(&action.sa_mask, SIGUSR2);
 	if (sigaction(SIGUSR1, &action, 0) == -1)
 		return (-1);
 	if (sigaction(SIGUSR2, &action, 0) == -1)
 		return (-1);
-	sigemptyset(&action.sa_mask);
 	action.sa_flags = SA_SIGINFO;
 	action.sa_sigaction = ft_quit;
+	sigemptyset(&action.sa_mask);
 	sigaddset(&action.sa_mask, SIGINT);
 	if (sigaction(SIGINT, &action, 0) == -1)
 		return (-1);
