@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:17:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/28 15:49:03 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/01 10:31:47 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ static int	ft_send_char(char c)
 		res = (c >> i) & 1;
 		g_client.flags = 0;
 		if (ft_send_bit(res, 0) == SIG_ERROR)
-			return (SIG_ERROR);
+		{
+			ft_panic(SIG_ERROR);
+			exit(EXIT_FAILURE);
+		}
 		if (i == 0)
 		{
 			g_client.bits_sent = CHAR_SENT;
