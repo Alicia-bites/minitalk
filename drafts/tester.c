@@ -1,4 +1,4 @@
-#include "headers/ft_minitalk.h"
+#include "../headers/ft_minitalk.h"
 
 t_lined_up *g_pile;
 
@@ -19,19 +19,43 @@ t_lined_up *g_pile;
 // 	return (c);
 // }
 
-void	ft_lstclear(t_lined_up **lst)
+void	ft_lstadd_back(t_lined_up **first_elt, t_lined_up *new)
+{
+	t_lined_up	*iterator;
+
+	iterator = *first_elt;
+	if (first_elt && new)
+	{
+		if (!*first_elt)
+			*first_elt = new;
+		else
+		{	
+			while (iterator->next)
+                iterator = iterator->next;
+			iterator->next = new;
+            new->prev = iterator;
+            // printf("new %p\n", new);
+            // printf("iterator->prev %p\n", iterator->prev);
+		}
+	}
+}
+
+//clear the list starting from the LAST element
+void	ft_lstclear_back(t_lined_up **lst)
 {
 	t_lined_up	*iterator;
 	t_lined_up	*prev;
 
 	iterator = *lst;
 	prev = NULL;
-	while (iterator)
+	while (iterator->prev)
 	{
 		prev = iterator;
-		iterator = iterator->next;
+		iterator = iterator->prev;
+        // printf("g_pile : %p\n", g_pile);
 		free(prev);
 	}
+    free(iterator);
 	*lst = NULL;
 }
 
@@ -46,24 +70,25 @@ int main()
     i = 0;
     pid_test = 1234;
     
-    while (i < 8)
+    while (i < 4)
     {
         new = ft_lstnew(1, pid_test++);
         ft_lstadd_back(&g_pile, new);
         i++;
     }
-    iterator = g_pile;
-    while (iterator)
+    g_pile;
+    while (g_pile->next)
     {
-        printf("%d %d\n", iterator->bit, iterator->pid);
-        iterator = iterator->next;
+        printf("g_pile : %p\n", g_pile);
+        g_pile = g_pile->next;
     }
-    ft_lstclear(&g_pile);
-    iterator = g_pile;
-    while (iterator)
-    {
-        printf("%d %d\n", iterator->bit, iterator->pid);
-        iterator = iterator->next;
-    }
+    ft_lstclear_back(&g_pile);
+    // puts("-----------------");
+    // iterator = g_pile;
+    // while (iterator)
+    // {
+    //     printf("%p\n", iterator);
+    //     iterator = iterator->prev;
+    // }
     return (0);
 }

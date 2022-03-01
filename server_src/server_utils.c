@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:11 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/27 11:15:13 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/01 17:24:09 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 void	ft_quit(int signum)
 {
 	(void) signum;
-	ft_lstclear(&g_pile);
+	if (!g_pile)
+		exit(EXIT_SUCCESS);
+	ft_lstclear_back(&g_pile);
 	exit(1);
 }
 

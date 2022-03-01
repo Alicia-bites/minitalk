@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/27 17:13:53 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/01 17:18:53 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	ft_roger(pid_t pid, int *msg_received, int tries)
 		signal = SIGUSR1;
 	if (*msg_received == 1)
 		signal = SIGUSR2;
-	//printf("%d signal : %d\n", i, signal);
 	if (kill(pid, signal) == SIG_ERROR)
 		ft_roger(pid, msg_received, tries + 1);
 	*msg_received = 0;
@@ -43,15 +42,17 @@ char	ft_built_char(pid_t pid, int *msg_received)
 
 	i = 0;
 	c = 0;
-	while (i <= 7 && g_pile)
+	while (i <= 7 && g_pile->next)
 	{
 		c += (g_pile->bit << (7 - i++));
 		g_pile = g_pile->next;
+		// printf("g_pile : %p\n", g_pile);
 	}
 	if (c == 0)
 	{
 		*msg_received = 1;
-		ft_lstclear(&g_pile);
+		// printf("g_pile : %p\n", g_pile);
+		ft_lstclear_back(&g_pile);
 		if (ft_roger(pid, msg_received, 0) == SIG_ERROR)
 		{
 			ft_putstr("signal error, reception not aknowledged", 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amarchan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 11:53:40 by amarchan          #+#    #+#             */
-/*   Updated: 2022/02/27 11:53:43 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/01 16:30:31 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_lined_up	*ft_lstnew(int bit, pid_t pid)
 		return (NULL);
 	elt->bit = bit;
 	elt->pid = pid;
+	elt->prev = NULL;
 	elt->next = NULL;
 	return (elt);
 }
