@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/03/01 17:18:53 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/01 17:50:15 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,17 @@ static int	ft_set_sigaction(void)
 	sigemptyset(&action.sa_mask);
 	action.sa_flags = SA_SIGINFO;
 	action.sa_sigaction = ft_receive_bits;
+	sigaddset(&action.sa_mask, SIGUSR1);
+	sigaddset(&action.sa_mask, SIGUSR2);
 	if (sigaction(SIGUSR1, &action, 0) == -1)
 		return (-1);
 	if (sigaction(SIGUSR2, &action, 0) == -1)
 		return (-1);
 	sigemptyset(&action.sa_mask);
-	action.sa_flags = 0;
-	action.sa_sigaction = NULL;
-	action.sa_handler = &ft_quit;
-	if (sigaction(SIGINT, &action, NULL) == -1)
+	action.sa_flags = SA_SIGINFO;
+	action.sa_sigaction = ft_quit;
+	sigaddset(&action.sa_mask, SIGINT);
+	if (sigaction(SIGINT, &action, 0) == -1)
 		return (-1);
 	return (0);
 }
