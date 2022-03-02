@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/03/01 17:53:39 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/02 10:02:56 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 t_lined_up	*g_pile;
 
-// envoie un message "bien recu" ->
-//si le serveur a bien recu le bit envoye par le client
+//Send aknownledgment to client that bit has been received
 int	ft_roger(pid_t pid, int *msg_received, int tries)
 {
 	int	signal;
@@ -27,6 +26,7 @@ int	ft_roger(pid_t pid, int *msg_received, int tries)
 		signal = SIGUSR1;
 	if (*msg_received == 1)
 		signal = SIGUSR2;
+	// printf("signal sent : %d\n", signal);
 	if (kill(pid, signal) == SIG_ERROR)
 		ft_roger(pid, msg_received, tries + 1);
 	*msg_received = 0;
@@ -34,7 +34,7 @@ int	ft_roger(pid_t pid, int *msg_received, int tries)
 	return (0);
 }
 
-//recupere les bits ranges dans la liste chainee et les transforme en char
+//Get bits from linked list and build char
 char	ft_built_char(pid_t pid, int *msg_received)
 {
 	int				i;
@@ -62,7 +62,7 @@ char	ft_built_char(pid_t pid, int *msg_received)
 	return (c);
 }
 
-// range chaque bit recu dans une liste chainee, confirme reception du bit
+//Add every bit in a linked list, send confirmation to client
 void	ft_receive_bits(int signum, siginfo_t *info, void *context)
 {
 	t_lined_up	*new;
@@ -83,6 +83,8 @@ void	ft_receive_bits(int signum, siginfo_t *info, void *context)
 		ft_putchar(ft_built_char(info->si_pid, &msg_received));
 }
 
+//Set up signal catcher function 
+//for SIGUSR1, SIGUSR2 and SIGINT
 static int	ft_set_sigaction(void)
 {
 	struct sigaction	action;
@@ -96,8 +98,8 @@ static int	ft_set_sigaction(void)
 		return (-1);
 	if (sigaction(SIGUSR2, &action, 0) == -1)
 		return (-1);
-	action.sa_flags = SA_SIGINFO;
 	action.sa_sigaction = ft_quit;
+	action.sa_flags = SA_SIGINFO;
 	sigemptyset(&action.sa_mask);
 	sigaddset(&action.sa_mask, SIGINT);
 	if (sigaction(SIGINT, &action, 0) == -1)
@@ -105,6 +107,7 @@ static int	ft_set_sigaction(void)
 	return (0);
 }
 
+//print server PID and wait for client message
 int	main(int argc, char **argv)
 {
 	(void) argv;

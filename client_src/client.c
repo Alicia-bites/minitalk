@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:17:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/03/01 10:39:24 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/02 10:02:56 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	handler(int signum, siginfo_t *info, void *context)
 	}
 }
 
-//set up sigaction. When signal SIGUSR1 received --> send next bit
+//Set up signal catcher function
 static int	ft_set_sigaction(void)
 {
 	struct sigaction	action;
@@ -95,8 +95,10 @@ static int	ft_set_sigaction(void)
 	sigemptyset(&action.sa_mask);
 	sigaddset(&action.sa_mask, SIGUSR1);
 	sigaddset(&action.sa_mask, SIGUSR2);
-	sigaction(SIGUSR1, &action, 0);
-	sigaction(SIGUSR2, &action, 0);
+	if (sigaction(SIGUSR1, &action, 0) == -1)
+		return (-1);
+	if (sigaction(SIGUSR2, &action, 0) == -1)
+		return (-1);
 	return (0);
 }
 

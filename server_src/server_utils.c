@@ -6,22 +6,28 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:11 by amarchan          #+#    #+#             */
-/*   Updated: 2022/03/01 17:48:12 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/02 10:16:15 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/ft_minitalk.h"
 
-//clean before when sudden exit
+//clean before when sudden exit (SIGINT)
 void	ft_quit(int signum, siginfo_t *info, void *context)
 {
-	(void) signum;
-	(void) info;
-	(void) context;
-	if (!g_pile)
-		exit(EXIT_SUCCESS);
-	ft_lstclear_back(&g_pile);
-	exit(1);
+	(void)info;
+	(void)context;
+	if (signum == SIGINT)
+	{
+		if (!g_pile)
+		{
+			ft_putstr("Nothing else to clean!", 1);
+			exit(EXIT_SUCCESS);
+		}
+		ft_lstclear_back(&g_pile);
+		ft_putstr("g_pile cleaned", 1);
+		exit(1);
+	}
 }
 
 //boolean that checks if there is a list of 8 consecutive zero in g_pile ->
