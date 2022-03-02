@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/03/02 10:02:56 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/02 11:17:07 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,20 @@ void	ft_receive_bits(int signum, siginfo_t *info, void *context)
 	t_lined_up	*new;
 	int			msg_received;
 	static int	count_bits = 0;
+	static int	new_pid = 0;
 
 	(void)context;
+	// printf("new_pid : %d\n", new_pid);
+	// printf("info->si_pid : %d\n", info->si_pid);
+	if (info->si_pid != new_pid)
+		ft_lstclear_back( &g_pile);
 	msg_received = 0;
 	if (signum == SIGUSR1)
 		new = ft_lstnew(1, info->si_pid);
 	if (signum == SIGUSR2)
 		new = ft_lstnew(0, info->si_pid);
 	ft_lstadd_back(&g_pile, new);
+	new_pid = info->si_pid;
 	if (ft_roger(info->si_pid, &msg_received, 0) == SIG_ERROR)
 		return ;
 	count_bits = ft_lstsize(g_pile);
