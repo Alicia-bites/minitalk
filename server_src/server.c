@@ -17,8 +17,7 @@ t_lined_up	*g_pile;
 //Send aknownledgment to client that bit has been received
 int	ft_roger(pid_t pid, int *msg_received, int tries)
 {
-	int	signal;
-	static int i = 1;
+	int		signal;
 
 	if (tries == MAX_RETRIES)
 		return (SIG_ERROR);
@@ -29,7 +28,6 @@ int	ft_roger(pid_t pid, int *msg_received, int tries)
 	if (kill(pid, signal) == SIG_ERROR)
 		ft_roger(pid, msg_received, tries + 1);
 	*msg_received = 0;
-	i++;
 	return (0);
 }
 
@@ -69,7 +67,7 @@ void	ft_receive_bits(int signum, siginfo_t *info, void *context)
 
 	(void)context;
 	if (info->si_pid != new_pid)
-		ft_lstclear( &g_pile);
+		ft_lstclear(&g_pile);
 	msg_received = 0;
 	if (signum == SIGUSR1)
 		new = ft_lstnew(1, info->si_pid);
