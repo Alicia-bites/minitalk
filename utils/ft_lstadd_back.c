@@ -24,9 +24,9 @@ void	ft_lstadd_back(t_lined_up **first_elt, t_lined_up *new)
 		else
 		{	
 			while (iterator->next)
-                iterator = iterator->next;
+				iterator = iterator->next;
 			iterator->next = new;
-            new->prev = iterator;
+			new->prev = iterator;
 		}
 	}
 }
