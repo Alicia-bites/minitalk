@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:36 by amarchan          #+#    #+#             */
-/*   Updated: 2022/03/02 13:23:28 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/03 18:11:52 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ int			ft_lstsize(t_lined_up *lst);
 void		ft_lstclear(t_lined_up **lst);
 void		ft_lstclear_back(t_lined_up **lst);
 int			ft_msg_ender(void);
-char 		*ft_strcat(char *dest, char *src);
+char		*ft_strcat(char *dest, char *src);
 int			ft_panic(int errcode);
 int			ft_send_bit(int bit, int tries);
 void		ft_quit(int signum, siginfo_t *info, void *context);
 int			ft_null_byte(void);
 int			ft_isdigit(int c);
-int 		pid_is_valid(char *s);
+int			pid_is_valid(char *s);
 
 #endif
