@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/03/02 11:17:07 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/02 14:33:59 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	ft_roger(pid_t pid, int *msg_received, int tries)
 		signal = SIGUSR1;
 	if (*msg_received == 1)
 		signal = SIGUSR2;
-	// printf("signal sent : %d\n", signal);
 	if (kill(pid, signal) == SIG_ERROR)
 		ft_roger(pid, msg_received, tries + 1);
 	*msg_received = 0;
@@ -46,12 +45,10 @@ char	ft_built_char(pid_t pid, int *msg_received)
 	{
 		c += (g_pile->bit << (7 - i++));
 		g_pile = g_pile->next;
-		// printf("g_pile : %p\n", g_pile);
 	}
 	if (c == 0)
 	{
 		*msg_received = 1;
-		// printf("g_pile : %p\n", g_pile);
 		ft_lstclear_back(&g_pile);
 		if (ft_roger(pid, msg_received, 0) == SIG_ERROR)
 		{
@@ -71,10 +68,8 @@ void	ft_receive_bits(int signum, siginfo_t *info, void *context)
 	static int	new_pid = 0;
 
 	(void)context;
-	// printf("new_pid : %d\n", new_pid);
-	// printf("info->si_pid : %d\n", info->si_pid);
 	if (info->si_pid != new_pid)
-		ft_lstclear_back( &g_pile);
+		ft_lstclear( &g_pile);
 	msg_received = 0;
 	if (signum == SIGUSR1)
 		new = ft_lstnew(1, info->si_pid);
