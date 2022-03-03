@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:11 by amarchan          #+#    #+#             */
-/*   Updated: 2022/03/02 13:09:12 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/03 16:57:12 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@ void	ft_quit(int signum, siginfo_t *info, void *context)
 {
 	(void)info;
 	(void)context;
+	// printf("g_pile ft_quit : %p\n", g_pile);
 	if (signum == SIGINT)
 	{
+		ft_lstclear(&g_pile);
+		// printf("g_pile ft_quit : %p\n", g_pile);
 		ft_lstclear_back(&g_pile);
-		ft_putstr("g_pile cleaned by ft_quit!", 1);
+		// printf("g_pile ft_quit : %p\n", g_pile);
 		exit(1);
 	}
 }
