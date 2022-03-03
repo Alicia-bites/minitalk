@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:17:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/03/03 16:12:23 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/03 16:25:48 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	ft_send_char(char c)
 		// printf("g_client.flags : %d\n", g_client.flags);
 		while (g_client.flags != PONG_OK)
 			pause();
-		usleep(50);
+		usleep(100);
 		// puts("after");
 		i--;
 	}
