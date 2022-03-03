@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:17:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/03/03 16:25:48 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/03 19:12:44 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	ft_send_char(char c)
 	int			res;
 
 	res = 0;
-	// printf("g_client.flags : %d\n", g_client.flags);
 	while (i >= 0 && g_client.flags == PONG_OK)
 	{
 		res = (c >> i) & 1;
@@ -40,12 +39,9 @@ static int	ft_send_char(char c)
 			i = 7;
 			return (0);
 		}
-		// puts("before");
-		// printf("g_client.flags : %d\n", g_client.flags);
 		while (g_client.flags != PONG_OK)
 			pause();
 		usleep(100);
-		// puts("after");
 		i--;
 	}
 	return (0);
@@ -60,7 +56,6 @@ static int	ft_send_msg(char *msg)
 	int	i;
 
 	i = 0;
-	// printf("g_client.flags : %d\n", g_client.flags);
 	msg = ft_strcat(g_client.msg, "\n");
 	while (msg[i] && g_client.flags == PONG_OK)
 	{
@@ -70,7 +65,6 @@ static int	ft_send_msg(char *msg)
 			return (SIG_ERROR);
 		while (g_client.flags != PONG_OK)
 			pause();
-		// usleep(500);
 	}
 	return (0);
 }
@@ -114,6 +108,7 @@ int	main(int argc, char **argv)
 {
 	int	msg_error;
 
+	usleep(10);
 	if (ft_set_sigaction() == -1)
 		return (ft_panic(ACTION_FAIL));
 	if (argc < 3)
