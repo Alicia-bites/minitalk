@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:22 by amarchan          #+#    #+#             */
-/*   Updated: 2022/03/03 19:12:47 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/03 19:21:17 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	ft_receive_bits(int signum, siginfo_t *info, void *context)
 	new_pid = info->si_pid;
 	if (ft_roger(info->si_pid, &msg_received, 0) == SIG_ERROR)
 		return ;
-	usleep(100);
+	// usleep(100);
 	count_bits = ft_lstsize(g_pile);
 	while (count_bits % 8 == 0 && ft_null_byte())
 		ft_putchar(ft_built_char(info->si_pid, &msg_received));
