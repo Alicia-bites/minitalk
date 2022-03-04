@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/03/04 09:22:13 by amarchan          #+#    #+#              #
+#    Updated: 2022/03/04 09:24:49 by amarchan         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME1 = client
 NAME2 = server
 
@@ -16,7 +28,6 @@ SRCS2 =	server_src/server.c \
 		utils/ft_strlen.c \
 		utils/ft_putchar.c \
 		utils/ft_putstr.c \
-		utils/ft_putendl.c \
 		utils/ft_putnbr.c \
 		utils/ft_lstnew.c \
 	  	utils/ft_lstsize.c \
@@ -29,7 +40,7 @@ OBJS2 := ${SRCS2:.c=.o}
 
 CC = gcc
 
-CFLAGS = -g3 -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 AR = ar rcs
 

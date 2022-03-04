@@ -6,7 +6,7 @@
 /*   By: amarchan <amarchan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 14:16:58 by amarchan          #+#    #+#             */
-/*   Updated: 2022/03/02 14:35:20 by amarchan         ###   ########.fr       */
+/*   Updated: 2022/03/04 09:20:17 by amarchan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	ft_panic(int errcode)
 }
 
 //check if PID is valid
-int pid_is_valid(char *s)
+int	pid_is_valid(char *s)
 {
-    while (*s)
+	while (*s)
 	{
 		if (!ft_isdigit(*s++))
 			return (0);
@@ -44,7 +44,7 @@ int pid_is_valid(char *s)
 int	ft_send_bit(int bit, int tries)
 {
 	int	signal;
-	
+
 	if (tries >= MAX_RETRIES)
 		return (SIG_ERROR);
 	if (bit == 1)
